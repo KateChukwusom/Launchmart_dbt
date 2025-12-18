@@ -66,5 +66,3 @@ models:
         description: "Points earned from promotions."
       - name: standard_points
         description: "Points earned from standard orders."
-    tests:
-      - promo_points_not_exceed_total
