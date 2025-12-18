@@ -41,20 +41,20 @@ models:
     # -------------------------
   staging:
     +materialized: view
-    +schema: "{% if target.name == 'production' %}analytics{% elif target.name == 'ci' %}analytics_ci{% else %}analytics_dev{% endif %}"
+    +schema: "{% if target.name == 'production' %}analytics{% elif target.name == 'staging' %}dbt_ci{% else %}dbt_dev{% endif %}"
 
     # -------------------------
     # INTERMEDIATE MODELS
     # -------------------------
   intermediate:
     +materialized: view
-    +schema: "{% if target.name == 'production' %}analytics{% elif target.name == 'ci' %}analytics_ci{% else %}analytics_dev{% endif %}"
+    +schema: "{% if target.name == 'production' %}analytics{% elif target.name == 'staging' %}dbt_ci{% else %}dbt_dev{% endif %}"
 
     # -------------------------
     # MARTS MODELS
     # -------------------------
   marts:
     +materialized: table
-    +schema: "{% if target.name == 'production' %}analytics_marts{% else %}analytics_dev{% endif %}"
+    +schema: "{% if target.name == 'production' %}analytics_marts{% else %}dbt_dev{% endif %}"
       # Guardrail: only build in production
     +enabled: "{{ target.name == 'production' }}"
