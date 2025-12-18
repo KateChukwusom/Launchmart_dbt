@@ -1,0 +1,98 @@
+version: 2
+
+models:
+  - name: stg_customers
+    description: "Cleaned staging table for customers."
+    columns:
+      - name: customer_id
+        description: "To identify customers."
+        tests:
+          - not_null
+          - unique
+      - name: full_name
+        description: "Customer full name."
+      - name: email
+        description: "Customer email."
+        tests:
+          - unique
+      - name: customer_join_date
+        description: "Customer join date."
+
+  - name: stg_products
+    description: "Cleaned staging table for products."
+    columns:
+      - name: product_id
+        description: "To identify products."
+        tests:
+          - not_null
+          - unique
+      - name: product_name
+        description: "Name of the product."
+      - name: category
+        description: "Product category."
+      - name: price
+        description: "Price of the product."
+
+  - name: stg_orders
+    description: "Cleaned staging table for orders."
+    columns:
+      - name: order_id
+        description: "To identify each orders."
+        tests:
+          - not_null
+          - unique
+      - name: customer_id
+        description: "Customer who placed the order."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_customers')
+              field: customer_id
+      - name: order_date
+        description: "Date of order placement."
+      - name: total_amount
+        description: "Total amount of the order."
+
+  - name: stg_order_items
+    description: "Cleaned staging table for order items."
+    columns:
+      - name: order_item_id
+        description: "Unique order item identifier."
+        tests:
+          - not_null
+          - unique
+      - name: order_id
+        description: "Reference to the order."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_orders')
+              field: order_id
+      - name: product_id
+        description: "Reference to the product."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_products')
+              field: product_id
+      - name: quantity
+        description: "Quantity of product in the order."
+      - name: line_total
+        description: "Line total amount for the product in this order."
+
+  - name: stg_loyalty_points
+    description: "Cleaned staging table for loyalty points."
+    columns:
+      - name: customer_id
+        description: "Reference to the customer."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_customers')
+              field: customer_id
+      - name: points_earned
+        description: "Number of points earned."
+      - name: transaction_date
+        description: "Date points were earned."
+      - name: points_source
+        description: "Source of points (Order, Promotion, Referral)."

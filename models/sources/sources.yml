@@ -1,0 +1,17 @@
+version: 2
+
+sources:
+  - name: raw
+    database: launch_mart_db
+    schema: launch_mart_schema
+    tables:
+      - name: customers
+        description: "Raw customers data from LaunchMart."
+      - name: products
+        description: "Raw products data from LaunchMart."
+      - name: orders
+        description: "Raw orders data from LaunchMart."
+      - name: order_items
+        description: "Raw order items data from LaunchMart."
+      - name: loyalty_points
+        description: "Raw loyalty points earned by customers."

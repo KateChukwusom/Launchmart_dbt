@@ -1,0 +1,70 @@
+version: 2
+
+models:
+  - name: int_customer_behavior
+    description: "Aggregated customer behavior metrics."
+    columns:
+      - name: customer_id
+        description: "Customer identifier."
+        tests:
+          - not_null
+          - unique
+      - name: total_orders
+        description: "Total number of orders placed by the customer."
+      - name: total_items_purchased
+        description: "Total number of items purchased by the customer."
+      - name: first_order_date
+        description: "Date of the first order."
+      - name: most_recent_order_date
+        description: "Date of the most recent order."
+
+  - name: int_order_revenue
+    description: "Order-level revenue aggregation from order_items."
+    columns:
+      - name: order_id
+        description: "Order identifier."
+        tests:
+          - not_null
+          - unique
+      - name: customer_id
+        description: "Customer identifier."
+      - name: order_date
+        description: "Order date."
+      - name: order_revenue
+        description: "Sum of line totals for the order."
+        tests:
+          - revenue_not_negative
+
+  - name: int_category_revenue
+    description: "Aggregated revenue by product category."
+    columns:
+      - name: category
+        description: "Product category."
+        tests:
+          - not_null
+          - unique
+      - name: category_revenue
+        description: "Total revenue generated for the category."
+        tests:
+          - revenue_not_negative
+
+  - name: int_loyalty_engagement
+    description: "Aggregated loyalty points per customer."
+    columns:
+      - name: customer_id
+        description: "Customer identifier."
+        tests:
+          - not_null
+          - unique
+      - name: loyalty_events
+        description: "Number of loyalty transactions."
+      - name: total_points_earned
+        description: "Total loyalty points earned."
+        tests:
+          - loyalty_points_positive
+      - name: promo_points
+        description: "Points earned from promotions."
+      - name: standard_points
+        description: "Points earned from standard orders."
+    tests:
+      - promo_points_not_exceed_total
