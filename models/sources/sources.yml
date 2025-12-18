@@ -2,6 +2,7 @@ version: 2
 
 sources:
   - name: raw
+    schema: launch_mart_schema
     description: "Raw source tables ingested from the LaunchMart production database."
     tables:
       - name: customers
