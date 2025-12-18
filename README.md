@@ -1,16 +1,27 @@
-# CowJacket dbt Project
+# CowJacket dbt Analytics Project
 
 ## Project Overview
 
 CowJacket is adopting dbt as its transformation tool to standardize data transformations, simplify testing, improve lineage visibility, and make it easier to manage transformation workflows.  
 
-This dbt project uses the provided SQL module data as the source and follows a three-layer modeling approach:
+This project uses data from the LaunchMart SQL module as its raw source and implements a production-grade dbt architecture following industry best practices, including:
 
-1. **Staging**: Clean and standardize raw source data.
-2. **Intermediate**: Aggregate and transform data for business metrics.
-3. **Marts**: Business-facing fact and dimension tables for analytics and reporting.
+- Multiple dbt Cloud environments
+- Direct promotion via CI
+- A three-layer modeling approach
+- Explicit schema management
+- Guardrails to protect production data
 
 The project is designed to support the loyalty program analytics and revenue analysis for CowJacket, allowing the team to understand customer behavior, revenue performance, and loyalty engagement.
+
+## Objectives
+
+- Standardize transformations using dbt
+- Separate concerns using layered data modeling
+- Enable automated CI on pull requests
+- Promote models safely to production
+- Provide analytics-ready tables for BI and stakeholders
+
 
 ## Project Structure
 ```
@@ -45,7 +56,7 @@ Launchmart_dbt/
 
 ## Environments & Schemas
 
-The project is deployed with **three dbt Cloud environments**:
+The project is deployed with three dbt Cloud environments:
 
 | Environment | Snowflake Schema | Purpose |
 |-------------|-----------------|---------|
@@ -79,7 +90,7 @@ The project is deployed with **three dbt Cloud environments**:
 - Includes tests for revenue validation and loyalty points constraints.
 
 ---
-## Sources & Seeds
+## Sources
 
 - **Sources** (`sources.yml`) define raw tables for lineage and testing..
 - All columns are fully documented for clarity and maintainability.
@@ -96,8 +107,12 @@ The project is deployed with **three dbt Cloud environments**:
   - `loyalty_points_positive`: ensures loyalty points are never negative
   - `promo_points_not_exceed_total`: ensures promotional points do not exceed total points
 
-- CI environment automatically runs all tests on **every pull request**.
+- ### Direct Promotion Workflow
 
+1. Developer opens a pull request
+2. CI job runs automatically
+3. Only modified models are built using state comparison
+4. After approval and merge, models are promoted directly to production
 ---
 ## Materializations & Guardrails
 
@@ -107,4 +122,5 @@ The project is deployed with **three dbt Cloud environments**:
   ```yaml
 
   +enabled: "{{ target.name == 'production' }}"
+
 
