@@ -2,16 +2,68 @@ version: 2
 
 sources:
   - name: raw
-    database: launch_mart_db
-    schema: launch_mart_schema
+    description: "Raw source tables ingested from the LaunchMart production database."
     tables:
       - name: customers
-        description: "Raw customers data from LaunchMart."
+        description: "Customer master data."
+        columns:
+          - name: customer_id
+            description: "Primary key for customers."
+          - name: full_name
+            description: "Customer full name."
+          - name: email
+            description: "Customer email address."
+          - name: join_date
+            description: "Date the customer joined LaunchMart."
+
       - name: products
-        description: "Raw products data from LaunchMart."
+        description: "Product catalog."
+        columns:
+          - name: product_id
+            description: "Primary key for products."
+          - name: product_name
+            description: "Name of the product."
+          - name: category
+            description: "Product category."
+          - name: price
+            description: "Unit price of the product."
+
       - name: orders
-        description: "Raw orders data from LaunchMart."
+        description: "Customer orders."
+        columns:
+          - name: order_id
+            description: "Primary key for orders."
+          - name: customer_id
+            description: "Customer placing the order."
+          - name: order_date
+            description: "Date the order was placed."
+          - name: total_amount
+            description: "Total amount recorded for the order."
+
       - name: order_items
-        description: "Raw order items data from LaunchMart."
+        description: "Line items for each order."
+        columns:
+          - name: order_item_id
+            description: "Primary key for order items."
+          - name: order_id
+            description: "Associated order."
+          - name: product_id
+            description: "Product purchased."
+          - name: quantity
+            description: "Number of units purchased."
+          - name: line_total
+            description: "Total price for the line item."
+
       - name: loyalty_points
-        description: "Raw loyalty points earned by customers."
+        description: "Loyalty points transactions."
+        columns:
+          - name: loyalty_id
+            description: "Primary key for loyalty transactions."
+          - name: customer_id
+            description: "Customer earning points."
+          - name: points_earned
+            description: "Number of loyalty points earned."
+          - name: transaction_date
+            description: "Date points were earned."
+          - name: source
+            description: "Origin of points (e.g. promo, standard)."
