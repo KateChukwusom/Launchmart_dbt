@@ -13,18 +13,35 @@ This dbt project uses the provided SQL module data as the source and follows a t
 The project is designed to support the loyalty program analytics and revenue analysis for CowJacket, allowing the team to understand customer behavior, revenue performance, and loyalty engagement.
 
 ## Project Structure
-'
-'cowjacket/
+```
+Launchmart_dbt/
+│
 ├── models/
-│ ├── staging/ # Raw data cleaning and standardization
-│ ├── intermediate/ # Aggregations and business metrics
-│ └── marts/ # Fact and dimension tables for reporting
-├── seeds/ # Static CSV files (if any)
-├── sources/ # Source definitions
-├── exposures/ # BI dashboard or report dependencies
-├── macros/ # Custom tests (e.g., revenue_not_negative)
-└── dbt_project.yml # Environment, schema, and materialization configuration'
-'
+│   │
+│   ├── staging/
+│   │   ├── stg_customers.sql
+│   │   ├── stg_products.sql
+│   │   ├── stg_orders.sql
+│   │   ├── stg_order_items.sql
+│   │   └── stg_loyalty_points.sql
+│   │
+│   ├── intermediate/
+│   │   ├── int_customer_behavior.sql
+│   │   ├── int_order_revenue.sql
+│   │   ├── int_category_revenue.sql
+│   │   └── int_loyalty_engagement.sql
+│   │
+│   └── marts/
+│       ├── dim_customers.sql
+│       └── fct_orders.sql
+│
+├── sources/
+│   └── sources.yml
+│
+├── dbt_project.yml
+└── README.md
+
+```
 
 ## Environments & Schemas
 
@@ -90,3 +107,4 @@ The project is deployed with **three dbt Cloud environments**:
   ```yaml
 
   +enabled: "{{ target.name == 'production' }}"
+
