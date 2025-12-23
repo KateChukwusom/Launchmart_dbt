@@ -1,9 +1,9 @@
 
-name: launchmart_dbt
+name: Launchmart_dbt
 version: '1.0'
 config-version: 2
 
-profile: launchmart_dbt_profile
+profile: Launchmart_dbt_profile
 
 model-paths: ["models"]
 analysis-paths: ["analyses"]
@@ -18,25 +18,23 @@ clean-targets:
   - "dbt_modules"
 
 models:
-  launchmart_dbt:
-    # -------------------------
+  Launchmart_dbt:
     # STAGING MODELS
-    # -------------------------
+    
     staging:
       +materialized: view
-      +schema: "{% if target.name == 'production' %}analytics{% elif target.name == 'staging' %}dbt_ci{% else %}dbt_dev{% endif %}"
+      +schema: "{{ target.schema }}_staging"
 
-    # -------------------------
-    # INTERMEDIATE MODELS
-    # -------------------------
+    
+    # INTERMEDIATE MODEL
+   
     intermediate:
       +materialized: view
-      +schema: "{% if target.name == 'production' %}analytics{% elif target.name == 'staging' %}dbt_ci{% else %}dbt_dev{% endif %}"
-
-    # -------------------------
-    # MARTS MODELS
-    # -------------------------
+      +schema: "{{ target.schema }}_intermediate"
+   
+    # MARTS MODEL
+    
     marts:
       +materialized: table
-      +schema: "{% if target.name == 'production' %}analytics_marts{% else %}dbt_dev{% endif %}"
-      +enabled: "{{ target.name == 'production' }}"
+      +schema: "{{ target.schema }}_marts"
+  
