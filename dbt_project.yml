@@ -2,7 +2,7 @@ name: Launchmart_dbt
 version: "1.0"
 config-version: 2
 
-profile: Launchmart_dbt_profile
+profile: Launchmart_dbt
 
 model-paths: ["models"]
 analysis-paths: ["analyses"]
